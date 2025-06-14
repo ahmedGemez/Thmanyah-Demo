@@ -58,6 +58,7 @@ class HomeViewModel @Inject constructor(
                     _homeData.value = UiState.LoadMore(HomeUiModel(currentSections))
                 }
             }
+
             .onEach { if (page == 1) {
                 currentSections = it.toUiModel().sections.toMutableList()
             } else {

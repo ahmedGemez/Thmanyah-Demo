@@ -50,6 +50,7 @@ class SectionDeserializer : JsonDeserializer<SectionDto> {
         return SectionDto(
             name = jsonObject["name"]?.asString,
             type = jsonObject["type"]?.asString,
+            order = jsonObject["order"]?.asString,
             contentType = contentType,
             content = content
         )
