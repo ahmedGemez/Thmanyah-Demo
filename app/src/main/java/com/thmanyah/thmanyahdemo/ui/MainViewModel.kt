@@ -2,9 +2,10 @@ package com.thmanyah.thmanyahdemo.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.thmanyah.domain.models.HomeResponse
 import com.thmanyah.domain.usecases.GetHomeDataUseCase
+import com.thmanyah.thmanyahdemo.ui.models.home.HomeUiModel
 import com.thmanyah.thmanyahdemo.ui.models.UiState
+import com.thmanyah.thmanyahdemo.ui.utils.toUiModel
 import com.thmanyah.thmanyahdemo.ui.utils.toUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -22,7 +23,7 @@ class MainViewModel @Inject constructor(
     private val getHomeDataUseCase: GetHomeDataUseCase
 ) : ViewModel() {
 
-    private val _homeData = MutableStateFlow<UiState<HomeResponse>>(UiState.Init())
+    private val _homeData = MutableStateFlow<UiState<HomeUiModel>>(UiState.Init())
     val homeData = _homeData.asStateFlow()
 
     init {
@@ -32,7 +33,7 @@ class MainViewModel @Inject constructor(
     private fun getHomeData() {
         getHomeDataUseCase()
             .onStart { _homeData.value = UiState.Loading() }
-            .onEach { _homeData.value = it.toUiState() }
+            .onEach { _homeData.value = it.toUiModel().toUiState() }
             .catch { _homeData.value = it.toUiState() }
             .flowOn(Dispatchers.IO)
             .launchIn(viewModelScope)

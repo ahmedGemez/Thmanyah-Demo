@@ -31,17 +31,22 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.thmanyah.thmanyahdemo.R
-import com.thmanyah.thmanyahdemo.ui.models.ItemSquareData
+import com.thmanyah.thmanyahdemo.ui.models.home.ItemSquareData
 
 
 @Composable
-fun HorizontalSquareList(items: List<ItemSquareData>) {
-    LazyRow(
-        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
-        horizontalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
-        items(items) { item ->
-            SquareItem(item)
+fun HorizontalSquareList(items: List<ItemSquareData>, header: String? = "") {
+    Column {
+        if (header != null) {
+            HeaderUI(header = header)
+        }
+        LazyRow(
+            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            items(items) { item ->
+                SquareItem(item)
+            }
         }
     }
 }

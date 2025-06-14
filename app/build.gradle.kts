@@ -96,5 +96,10 @@ dependencies {
     // Coil for image loading
     implementation(libs.coil.compose)
 
+    // Navigation Compose
+    implementation(libs.navigation.compose)
+
+    // Hilt Navigation Compose
+    implementation(libs.hilt.navigation.compose)
 
 }

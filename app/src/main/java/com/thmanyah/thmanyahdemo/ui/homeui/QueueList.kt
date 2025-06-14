@@ -20,96 +20,99 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import com.thmanyah.thmanyahdemo.ui.models.ItemQueueData
+import com.thmanyah.thmanyahdemo.ui.models.home.ItemQueueData
 
 @Composable
-fun QueueHorizontalList(items: List<ItemQueueData>) {
-    LazyRow(
-        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
-        horizontalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
-        items(items) { item ->
-            Box(
-                modifier = Modifier
-                    .height(140.dp)
-                    .fillParentMaxWidth()
-                    .clip(RoundedCornerShape(24.dp))
-                    .background(Color(0xFF23232B))
-            ) {
-                Row(
+fun QueueHorizontalList(items: List<ItemQueueData>, header: String? = "") {
+    Column {
+        if (header != null) {
+            HeaderUI(header = header)
+        }
+        LazyRow(
+            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            items(items) { item ->
+                Box(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .padding(8.dp),
-                    verticalAlignment = Alignment.CenterVertically
+                        .height(140.dp)
+                        .fillParentMaxWidth()
+                        .clip(RoundedCornerShape(24.dp))
+                        .background(Color(0xFF23232B))
                 ) {
-                    // Stacked images
-                    Box(
-                        modifier = Modifier.width(130.dp).height(130.dp),
-                        contentAlignment = Alignment.CenterEnd
+                    Row(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(8.dp),
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Image(
-                            painter = rememberAsyncImagePainter(item.image),
-                            contentDescription = null,
-                            contentScale = ContentScale.Crop,
-                            modifier = Modifier
-                                .size(130.dp)
-                                .clip(RoundedCornerShape(16.dp))
-                        )
-
-                    }
-                    Spacer(modifier = Modifier.width(16.dp))
-
-                    // Episode info
-                    Column(
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        Text(
-                            text = item.title,
-                            style = MaterialTheme.typography.bodyLarge,
-                            color = Color.White,
-                            maxLines = 2
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Text(
-                                text = formatDuration(item.duration),
-                                color = Color.Red,
-                                style = MaterialTheme.typography.bodyMedium
+                        // Stacked images
+                        Box(
+                            modifier = Modifier.width(130.dp).height(130.dp),
+                            contentAlignment = Alignment.CenterEnd
+                        ) {
+                            Image(
+                                painter = rememberAsyncImagePainter(item.image),
+                                contentDescription = null,
+                                contentScale = ContentScale.Crop,
+                                modifier = Modifier
+                                    .size(130.dp)
+                                    .clip(RoundedCornerShape(16.dp))
                             )
-                            Spacer(modifier = Modifier.width(8.dp))
-                            if(item.timeAgo != null)
+
+                        }
+                        Spacer(modifier = Modifier.width(16.dp))
+
+                        // Episode info
+                        Column(
+                            modifier = Modifier.weight(1f)
+                        ) {
+                            Text(
+                                text = item.title,
+                                style = MaterialTheme.typography.bodyLarge,
+                                color = Color.White,
+                                maxLines = 2
+                            )
+                            Spacer(modifier = Modifier.height(8.dp))
+                            Row(verticalAlignment = Alignment.CenterVertically) {
                                 Text(
-                                    text = getRelativeTimeFromNow(item.timeAgo),
-                                    color = Color.White,
+                                    text = formatDuration(item.duration),
+                                    color = Color.Red,
                                     style = MaterialTheme.typography.bodyMedium
                                 )
+                                Spacer(modifier = Modifier.width(8.dp))
+                                if (item.timeAgo != null)
+                                    Text(
+                                        text = getRelativeTimeFromNow(item.timeAgo),
+                                        color = Color.White,
+                                        style = MaterialTheme.typography.bodyMedium
+                                    )
+                            }
                         }
-                    }
-                    // Play button
-                    Box(
-                                modifier = Modifier
-                                .wrapContentSize()
-                            .align(Alignment.Bottom) // aligns this Box to bottom of Row
-                    ){
+                        // Play button
                         Box(
                             modifier = Modifier
-                                .size(32.dp)
-                                .clip(CircleShape)
-                                .background(Color.White),
-                            contentAlignment = Alignment.Center
+                                .wrapContentSize()
+                                .align(Alignment.Bottom) // aligns this Box to bottom of Row
                         ) {
-                            Icon(
-                                imageVector = Icons.Filled.PlayArrow,
-                                contentDescription = "Play",
-                                tint = Color.Black,
-                                modifier = Modifier.size(24.dp)
-                            )
+                            Box(
+                                modifier = Modifier
+                                    .size(32.dp)
+                                    .clip(CircleShape)
+                                    .background(Color.White),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Filled.PlayArrow,
+                                    contentDescription = "Play",
+                                    tint = Color.Black,
+                                    modifier = Modifier.size(24.dp)
+                                )
+                            }
                         }
+
+
                     }
-
-
-
-
                 }
             }
         }

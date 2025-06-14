@@ -8,26 +8,18 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.navigation.compose.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.thmanyah.domain.models.ContentItem
-import com.thmanyah.domain.models.HomeResponse
-import com.thmanyah.thmanyahdemo.ui.homeui.HorizontalTwoLinesGridList
-import com.thmanyah.thmanyahdemo.ui.homeui.QueueHorizontalList
-import com.thmanyah.thmanyahdemo.ui.homeui.ShowHorizontalBigSquareList
-import com.thmanyah.thmanyahdemo.ui.models.UiState
+import com.thmanyah.thmanyahdemo.ui.homeui.HomeScreen
+import com.thmanyah.thmanyahdemo.ui.models.MainTab
 import com.thmanyah.thmanyahdemo.ui.theme.ThmanyahDemoTheme
-import com.thmanyah.thmanyahdemo.ui.utils.mapAudioBookTOBigSquare
-import com.thmanyah.thmanyahdemo.ui.utils.mapAudioBookTOTwoLinesGrid
-import com.thmanyah.thmanyahdemo.ui.utils.mapPodcastToQueueItem
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -40,86 +32,13 @@ class MainActivity : ComponentActivity() {
         setContent {
             ThmanyahDemoTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    HomeScreen(
-                        viewModel = viewModel,
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                    MainScreen()
                 }
             }
         }
     }
 }
 
-@Composable
-fun HomeScreen(
-    viewModel: MainViewModel,
-    modifier: Modifier = Modifier
-) {
-    val homeData by viewModel.homeData.collectAsState()
-
-    Box(modifier = modifier.fillMaxSize()) {
-        when (homeData) {
-            is UiState.Init -> {
-                // Initial state, could show a welcome message or empty state
-                Text(
-                    text = "Welcome to Thmanyah",
-                    modifier = Modifier.align(Alignment.Center)
-                )
-            }
-
-            is UiState.Loading -> {
-                CircularProgressIndicator(
-                    modifier = Modifier.align(Alignment.Center)
-                )
-            }
-
-            is UiState.Success -> {
-                val data = (homeData as UiState.Success<HomeResponse>).data
-                // Display your content here
-                /*HorizontalSquareList(
-                    (data.sections?.get(0)?.content as? List<ContentItem.Podcast>).orEmpty()
-                        .mapPodcastTOSquareItem()
-                )*/
-
-                //  HorizontalTwoLinesGridList((data.sections?.get(1)?.content as? List<ContentItem.Episode>).orEmpty().mapEpisodeTOTwoLinesGrid())
-
-                // ShowHorizontalBigSquareList((data.sections?.get(2)?.content as? List<ContentItem.AudioBook>).orEmpty().mapAudioBookTOBigSquare())
-
-                /*QueueHorizontalList(
-                    (data.sections?.get(4)?.content as? List<ContentItem.Podcast>).orEmpty()
-                        .mapPodcastToQueueItem()
-                )*/
-
-              //  HorizontalTwoLinesGridList((data.sections?.get(6)?.content as? List<ContentItem.AudioBook>).orEmpty().mapAudioBookTOTwoLinesGrid())
-
-
-            }
-
-            is UiState.Error -> {
-                val error = (homeData as UiState.Error<HomeResponse>).error
-                Text(
-                    text = error.messageRes?.let { stringResource(id = it) } ?: error.message
-                    ?: "An error occurred",
-                    modifier = Modifier.align(Alignment.Center)
-                )
-            }
-
-            is UiState.Empty -> {
-                Text(
-                    text = "No data available",
-                    modifier = Modifier.align(Alignment.Center)
-                )
-            }
-
-            is UiState.LoadMore -> {
-                // Handle load more state if needed
-                CircularProgressIndicator(
-                    modifier = Modifier.align(Alignment.Center)
-                )
-            }
-        }
-    }
-}
 
 @Preview(showBackground = true)
 @Composable
@@ -131,6 +50,55 @@ fun HomeScreenPreview() {
                 text = "Preview",
                 modifier = Modifier.align(Alignment.Center)
             )
+        }
+    }
+}
+
+
+
+@Composable
+fun MainScreen() {
+    val tabs = listOf(
+        MainTab.Home,
+        MainTab.Search,
+        MainTab.Library,
+        MainTab.Notifications,
+        MainTab.Profile
+    )
+    val navController = rememberNavController()
+    var selectedTab by remember { mutableStateOf(0) }
+
+    Scaffold(
+        bottomBar = {
+            NavigationBar {
+                tabs.forEachIndexed { index, tab ->
+                    NavigationBarItem(
+                        selected = selectedTab == index,
+                        onClick = {
+                            selectedTab = index
+                            navController.navigate(tab.route) {
+                                popUpTo(navController.graph.startDestinationId) { saveState = true }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
+                        },
+                        icon = { Icon(tab.icon, contentDescription = tab.label) },
+                        label = { Text(tab.label) }
+                    )
+                }
+            }
+        }
+    ) { innerPadding ->
+        NavHost(
+            navController = navController,
+            startDestination = MainTab.Home.route,
+            modifier = Modifier.padding(innerPadding)
+        ) {
+            composable(MainTab.Home.route) { HomeScreen(modifier = Modifier.padding(innerPadding)) }
+            composable(MainTab.Search.route) { /* SearchScreen() */ }
+            composable(MainTab.Library.route) { /* LibraryScreen() */ }
+            composable(MainTab.Notifications.route) { /* NotificationsScreen() */ }
+            composable(MainTab.Profile.route) { /* ProfileScreen() */ }
         }
     }
 }

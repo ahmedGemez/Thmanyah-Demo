@@ -6,7 +6,7 @@ import com.thmanyah.domain.models.*
 fun HomeResponseDto.toDomain(): HomeResponse {
     return HomeResponse(
         sections = sections?.map { it.toDomain() },
-        nextPage = nextPage?.map { it.toDomain() },
+        nextPage = nextPage,
         totalPages = totalPages
     )
 }

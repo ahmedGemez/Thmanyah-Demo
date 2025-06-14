@@ -36,24 +36,29 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.thmanyah.thmanyahdemo.R
-import com.thmanyah.thmanyahdemo.ui.models.ItemTwoLinesGridData
+import com.thmanyah.thmanyahdemo.ui.models.home.ItemTwoLinesGridData
 import java.time.Instant
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 
 @Composable
-fun HorizontalTwoLinesGridList(items: List<ItemTwoLinesGridData>) {
+fun HorizontalTwoLinesGridList(items: List<ItemTwoLinesGridData>, header: String? = "") {
     val groupedEpisodes = items.chunked(2)
 
-    LazyRow(
-        contentPadding = PaddingValues(horizontal = 16.dp),
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
-    ) {
-        items(groupedEpisodes) { pair ->
-            Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
-                pair.forEach { item ->
-                    EpisodeCard(item = item)
+    Column {
+        if (header != null) {
+            HeaderUI(header = header)
+        }
+        LazyRow(
+            contentPadding = PaddingValues(horizontal = 16.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+        ) {
+            items(groupedEpisodes) { pair ->
+                Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+                    pair.forEach { item ->
+                        EpisodeCard(item = item)
+                    }
                 }
             }
         }
@@ -90,21 +95,23 @@ fun EpisodeCard(item: ItemTwoLinesGridData) {
                 fontSize = 10.sp,
                 fontWeight = FontWeight.Bold,
                 maxLines = 1,
-                textAlign =  TextAlign.Start,
+                textAlign = TextAlign.Start,
                 modifier = Modifier.fillMaxWidth()
             )
 
             Spacer(modifier = Modifier.height(4.dp))
 
             Text(
-                text = item.title?:"",
+                text = item.title ?: "",
                 color = Color.White,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
-                textAlign =  TextAlign.Start,
-                modifier = Modifier.fillMaxWidth().heightIn(min = 40.dp)
+                textAlign = TextAlign.Start,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .heightIn(min = 40.dp)
             )
 
             Spacer(modifier = Modifier.height(4.dp))
@@ -112,14 +119,14 @@ fun EpisodeCard(item: ItemTwoLinesGridData) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
-            ){
-                RoundedDurationButton(item.duration?:0)
+            ) {
+                RoundedDurationButton(item.duration ?: 0)
                 Box(
                     modifier = Modifier.fillMaxWidth(),
                     contentAlignment = Alignment.CenterEnd,
                 ) {
                     Row(
-                    ){
+                    ) {
                         Icon(
                             imageVector = Icons.Filled.MoreVert,
                             contentDescription = "Play",
@@ -152,8 +159,10 @@ fun getRelativeTimeData(dateString: String): List<Long>? {
         val minutes = ChronoUnit.MINUTES.between(dateTime, now)
         val hours = ChronoUnit.HOURS.between(dateTime, now)
         val days = ChronoUnit.DAYS.between(dateTime, now)
-        val months = ChronoUnit.MONTHS.between(dateTime.atZone(ZoneOffset.UTC), now.atZone(ZoneOffset.UTC))
-        val years = ChronoUnit.YEARS.between(dateTime.atZone(ZoneOffset.UTC), now.atZone(ZoneOffset.UTC))
+        val months =
+            ChronoUnit.MONTHS.between(dateTime.atZone(ZoneOffset.UTC), now.atZone(ZoneOffset.UTC))
+        val years =
+            ChronoUnit.YEARS.between(dateTime.atZone(ZoneOffset.UTC), now.atZone(ZoneOffset.UTC))
         listOf(minutes, hours, days, months, years)
     } catch (e: Exception) {
         null

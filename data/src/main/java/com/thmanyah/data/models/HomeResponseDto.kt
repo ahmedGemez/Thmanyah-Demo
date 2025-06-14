@@ -6,7 +6,7 @@ data class HomeResponseDto(
     @SerializedName("sections")
     val sections: List<SectionDto>? = null,
     @SerializedName("next_page")
-    val nextPage: List<SectionDto>? = null,
+    val nextPage: String? = null,
     @SerializedName("total_pages")
     val totalPages: Int? = null,
 ) 
