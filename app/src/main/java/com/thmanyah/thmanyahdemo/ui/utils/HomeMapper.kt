@@ -2,12 +2,14 @@ package com.thmanyah.thmanyahdemo.ui.utils
 
 import com.thmanyah.domain.models.ContentItem
 import com.thmanyah.domain.models.HomeResponse
+import com.thmanyah.domain.models.Pagination
 import com.thmanyah.thmanyahdemo.ui.models.home.HomeSectionUiModel
 import com.thmanyah.thmanyahdemo.ui.models.home.HomeUiModel
 import com.thmanyah.thmanyahdemo.ui.models.home.ItemBigSquareData
 import com.thmanyah.thmanyahdemo.ui.models.home.ItemQueueData
 import com.thmanyah.thmanyahdemo.ui.models.home.ItemSquareData
 import com.thmanyah.thmanyahdemo.ui.models.home.ItemTwoLinesGridData
+import com.thmanyah.thmanyahdemo.ui.models.home.PaginationUiModel
 
 
 fun List<ContentItem.Podcast>.mapPodcastTOSquareItem() = map {
@@ -67,6 +69,8 @@ fun List<ContentItem.AudioBook>.mapAudioBookTOTwoLinesGrid() = map {
         releaseDate = it.releaseDate ?: ""
     )
 }
+
+fun Pagination.toPaginationUiModel() = PaginationUiModel(nextPage, totalPages)
 
 
 fun HomeResponse.toUiModel(): HomeUiModel {
@@ -132,5 +136,5 @@ fun HomeResponse.toUiModel(): HomeUiModel {
         }
     }.orEmpty()
 
-    return HomeUiModel(sections = sectionUiModels)
+    return HomeUiModel(sections = sectionUiModels, pagination = pagination?.toPaginationUiModel())
 }

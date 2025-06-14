@@ -1,13 +1,13 @@
 package com.thmanyah.data.mapper
 
+import com.google.gson.annotations.SerializedName
 import com.thmanyah.data.models.*
 import com.thmanyah.domain.models.*
 
 fun HomeResponseDto.toDomain(): HomeResponse {
     return HomeResponse(
         sections = sections?.map { it.toDomain() },
-        nextPage = nextPage,
-        totalPages = totalPages
+        pagination = pagination?.toDoamin(),
     )
 }
 
@@ -20,6 +20,7 @@ fun SectionDto.toDomain(): Section {
         content = content?.map { it.toDomain() }
     )
 }
+
 
 fun ContentItemDto.toDomain(): ContentItem {
     return when (this) {
@@ -87,4 +88,10 @@ fun ContentItemDto.toDomain(): ContentItem {
             score = score
         )
     }
-} 
+}
+
+fun PaginationDto.toDoamin() =
+  Pagination(
+        nextPage = nextPage,
+        totalPages = totalPages,
+    )

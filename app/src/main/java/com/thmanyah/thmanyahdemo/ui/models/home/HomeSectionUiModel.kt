@@ -1,7 +1,7 @@
 package com.thmanyah.thmanyahdemo.ui.models.home
 
 
-sealed class HomeSectionUiModel() {
+sealed class HomeSectionUiModel {
     data class Square(val items: List<ItemSquareData> = emptyList(), val name: String? = null) :
         HomeSectionUiModel()
 

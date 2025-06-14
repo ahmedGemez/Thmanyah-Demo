@@ -4,9 +4,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,10 +23,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.thmanyah.domain.models.HomeResponse
 import com.thmanyah.thmanyahdemo.ui.home.HomeViewModel
+import com.thmanyah.thmanyahdemo.ui.models.UiState
 import com.thmanyah.thmanyahdemo.ui.models.home.HomeSectionUiModel
 import com.thmanyah.thmanyahdemo.ui.models.home.HomeUiModel
-import com.thmanyah.thmanyahdemo.ui.models.UiState
-import java.util.UUID
 
 @Composable
 fun HomeScreen(
@@ -32,6 +34,7 @@ fun HomeScreen(
 ) {
     val viewModel: HomeViewModel = hiltViewModel()
     val homeData by viewModel.homeData.collectAsState()
+    val isLoadingMore by viewModel.isLoadingMore.collectAsState()
 
     Box(modifier = modifier.fillMaxSize()) {
         when (homeData) {
@@ -49,12 +52,19 @@ fun HomeScreen(
                 )
             }
 
-            is UiState.Success -> {
-                val data = (homeData as UiState.Success<HomeUiModel>).data
+            is UiState.Success, is UiState.LoadMore-> {
+                val data = when (homeData) {
+                    is UiState.Success -> (homeData as UiState.Success<HomeUiModel>).data
+                    is UiState.LoadMore -> (homeData as UiState.LoadMore<HomeUiModel>).data
+                    else -> return@Box
+                }
                 Column {
                     WelcomeBar(navController = navController )
                     LazyColumn {
-                        items(data.sections, key = { UUID.randomUUID() }) { section ->
+                        itemsIndexed(data.sections) { index, section ->
+                            if (index == data.sections.lastIndex - 2 && !isLoadingMore) {
+                                viewModel.loadNextPage()
+                            }
                             when (section) {
                                 is HomeSectionUiModel.Square -> {
                                     HorizontalSquareList(section.items, section.name)
@@ -74,6 +84,21 @@ fun HomeScreen(
                                 // Add more cases as needed
                             }
                             Spacer(modifier = Modifier.height(16.dp))
+
+                        }
+                        if (isLoadingMore) {
+                            item {
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(16.dp),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    CircularProgressIndicator(
+                                        modifier = Modifier.size(20.dp)
+                                    )
+                                }
+                            }
                         }
                     }
                 }
@@ -95,12 +120,6 @@ fun HomeScreen(
                 )
             }
 
-            is UiState.LoadMore -> {
-                // Handle load more state if needed
-                CircularProgressIndicator(
-                    modifier = Modifier.align(Alignment.Center)
-                )
-            }
         }
     }
 }

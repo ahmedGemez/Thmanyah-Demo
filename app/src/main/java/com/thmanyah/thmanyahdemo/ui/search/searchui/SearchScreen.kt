@@ -27,7 +27,6 @@ import com.thmanyah.thmanyahdemo.ui.home.homeui.HorizontalSquareList
 import com.thmanyah.thmanyahdemo.ui.home.homeui.HorizontalTwoLinesGridList
 import com.thmanyah.thmanyahdemo.ui.home.homeui.QueueHorizontalList
 import com.thmanyah.thmanyahdemo.ui.home.homeui.ShowHorizontalBigSquareList
-import com.thmanyah.thmanyahdemo.ui.home.homeui.WelcomeBar
 import com.thmanyah.thmanyahdemo.ui.models.UiState
 import com.thmanyah.thmanyahdemo.ui.models.home.HomeSectionUiModel
 import com.thmanyah.thmanyahdemo.ui.models.home.HomeUiModel
