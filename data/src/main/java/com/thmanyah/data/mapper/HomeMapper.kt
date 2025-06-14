@@ -16,7 +16,7 @@ fun SectionDto.toDomain(): Section {
         name = name,
         type = type,
         contentType = contentType,
-        order = order,
+        order = order?.toIntOrNull(),
         content = content?.map { it.toDomain() }
     )
 }
@@ -29,11 +29,11 @@ fun ContentItemDto.toDomain(): ContentItem {
             description = description,
             avatarUrl = avatarUrl,
             episodeCount = episodeCount,
-            duration = duration,
+            duration = duration?.toIntOrNull(),
             language = language,
-            priority = priority,
-            popularityScore = popularityScore,
-            score = score
+            priority = priority?.toIntOrNull(),
+            popularityScore = popularityScore?.toIntOrNull(),
+            score = score?.toFloatOrNull()
         )
         is ContentItemDto.EpisodeDto -> ContentItem.Episode(
             podcastPopularityScore = podcastPopularityScore,

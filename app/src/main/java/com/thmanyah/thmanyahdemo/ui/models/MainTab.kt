@@ -9,9 +9,8 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.ui.graphics.vector.ImageVector
 
 sealed class MainTab(val route: String, val label: String, val icon: ImageVector) {
-    object Home : MainTab("home", "الرئيسية", Icons.Filled.Home)
-    object Search : MainTab("search", "بحث", Icons.Filled.Search)
-    object Library : MainTab("library", "المكتبة", Icons.Filled.Menu)
-    object Notifications : MainTab("notifications", "الإشعارات", Icons.Filled.Notifications)
-    object Profile : MainTab("profile", "حسابي", Icons.Filled.Person)
+    object Home : MainTab("home", "home", Icons.Filled.Home)
+    object Library : MainTab("library", "library", Icons.Filled.Menu)
+    object Notifications : MainTab("notifications", "notifications", Icons.Filled.Notifications)
+    object Profile : MainTab("profile", "profile", Icons.Filled.Person)
 }

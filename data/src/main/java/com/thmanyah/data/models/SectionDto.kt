@@ -10,7 +10,7 @@ data class SectionDto(
     @SerializedName("content_type")
     val contentType: String? = null,
     @SerializedName("order")
-    val order: Int? = null,
+    val order: String? = null,
     @SerializedName("content")
     val content: List<ContentItemDto>? = null
 ) 

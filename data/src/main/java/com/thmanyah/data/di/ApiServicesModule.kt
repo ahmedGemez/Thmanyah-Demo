@@ -14,7 +14,7 @@ import javax.inject.Singleton
 object ApiServicesModule {
     @Singleton
     @Provides
-    fun provideCareTeamApiService(
+    fun provideApiService(
         retrofit : Retrofit,
     ) : ApiService = retrofit.create(ApiService::class.java)
 

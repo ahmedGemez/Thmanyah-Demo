@@ -3,6 +3,7 @@ import com.thmanyah.data.ApiService
 import com.thmanyah.data.mapper.toDomain
 import com.thmanyah.data.utils.mapDataOrThrow
 import com.thmanyah.domain.models.HomeResponse
+import com.thmanyah.domain.models.SearchResponse
 import com.thmanyah.domain.repositories.HomeRepo
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -11,5 +12,9 @@ import javax.inject.Inject
 class HomeRepoImpl @Inject constructor(private val apiService: ApiService) : HomeRepo {
     override fun getHomeData(): Flow<HomeResponse> = flow {
         emit(apiService.getHomeResponse().toDomain())
+    }.mapDataOrThrow()
+
+    override fun search(): Flow<SearchResponse> = flow {
+        emit(apiService.search().toDomain())
     }.mapDataOrThrow()
 }

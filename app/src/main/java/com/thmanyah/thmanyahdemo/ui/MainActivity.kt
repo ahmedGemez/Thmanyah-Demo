@@ -5,6 +5,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -17,22 +19,26 @@ import androidx.compose.runtime.*
 import androidx.navigation.compose.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.thmanyah.thmanyahdemo.ui.homeui.HomeScreen
+import com.thmanyah.thmanyahdemo.ui.NavigationKeys.Route.SEARCH
+import com.thmanyah.thmanyahdemo.ui.home.HomeViewModel
+import com.thmanyah.thmanyahdemo.ui.home.homeui.HomeScreen
 import com.thmanyah.thmanyahdemo.ui.models.MainTab
+import com.thmanyah.thmanyahdemo.ui.search.searchui.SearchScreen
 import com.thmanyah.thmanyahdemo.ui.theme.ThmanyahDemoTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    private val viewModel: MainViewModel by viewModels()
+    private val viewModel: HomeViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             ThmanyahDemoTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                Scaffold(modifier = Modifier.fillMaxSize()) { _ ->
                     MainScreen()
+
                 }
             }
         }
@@ -60,31 +66,35 @@ fun HomeScreenPreview() {
 fun MainScreen() {
     val tabs = listOf(
         MainTab.Home,
-        MainTab.Search,
         MainTab.Library,
         MainTab.Notifications,
         MainTab.Profile
     )
     val navController = rememberNavController()
     var selectedTab by remember { mutableStateOf(0) }
-
+    val currentBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = currentBackStackEntry?.destination?.route
     Scaffold(
         bottomBar = {
-            NavigationBar {
-                tabs.forEachIndexed { index, tab ->
-                    NavigationBarItem(
-                        selected = selectedTab == index,
-                        onClick = {
-                            selectedTab = index
-                            navController.navigate(tab.route) {
-                                popUpTo(navController.graph.startDestinationId) { saveState = true }
-                                launchSingleTop = true
-                                restoreState = true
-                            }
-                        },
-                        icon = { Icon(tab.icon, contentDescription = tab.label) },
-                        label = { Text(tab.label) }
-                    )
+            if (currentRoute != SEARCH) {
+                NavigationBar {
+                    tabs.forEachIndexed { index, tab ->
+                        NavigationBarItem(
+                            selected = selectedTab == index,
+                            onClick = {
+                                selectedTab = index
+                                navController.navigate(tab.route) {
+                                    popUpTo(navController.graph.startDestinationId) {
+                                        saveState = true
+                                    }
+                                    launchSingleTop = true
+                                    restoreState = true
+                                }
+                            },
+                            icon = { Icon(tab.icon, contentDescription = tab.label) },
+                            label = { Text(tab.label) }
+                        )
+                    }
                 }
             }
         }
@@ -92,13 +102,18 @@ fun MainScreen() {
         NavHost(
             navController = navController,
             startDestination = MainTab.Home.route,
-            modifier = Modifier.padding(innerPadding)
+            modifier = Modifier.padding(innerPadding),
+            enterTransition = { EnterTransition.None },
+            exitTransition = { ExitTransition.None },
+            popEnterTransition = { EnterTransition.None },
+            popExitTransition = { ExitTransition.None }
+
         ) {
-            composable(MainTab.Home.route) { HomeScreen(modifier = Modifier.padding(innerPadding)) }
-            composable(MainTab.Search.route) { /* SearchScreen() */ }
+            composable(MainTab.Home.route) { HomeScreen(navController = navController) }
             composable(MainTab.Library.route) { /* LibraryScreen() */ }
             composable(MainTab.Notifications.route) { /* NotificationsScreen() */ }
             composable(MainTab.Profile.route) { /* ProfileScreen() */ }
+            composable(SEARCH) { SearchScreen() }
         }
     }
 }

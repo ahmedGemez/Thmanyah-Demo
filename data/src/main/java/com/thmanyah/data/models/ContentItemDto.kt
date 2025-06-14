@@ -15,15 +15,15 @@ sealed class ContentItemDto {
         @SerializedName("episode_count")
         val episodeCount: Int? = null,
         @SerializedName("duration")
-        val duration: Int? = null,
+        val duration: String? = null,
         @SerializedName("language")
         val language: String? = null,
         @SerializedName("priority")
-        val priority: Int? = null,
+        val priority: String? = null,
         @SerializedName("popularityScore")
-        val popularityScore: Int? = null,
+        val popularityScore: String? = null,
         @SerializedName("score")
-        val score: Float? = null
+        val score: String? = null
     ) : ContentItemDto()
 
     data class EpisodeDto(

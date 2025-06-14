@@ -76,14 +76,14 @@ fun HomeResponse.toUiModel(): HomeUiModel {
                 val items = section.content
                     ?.filterIsInstance<ContentItem.Podcast>()
                     ?.mapPodcastTOSquareItem()
-                HomeSectionUiModel.Square(items, section.name)
+                items?.let { HomeSectionUiModel.Square(it, section.name) }
             }
 
             section.contentType == "episode" && section.type == "2_lines_grid" -> {
                 val items = section.content
                     ?.filterIsInstance<ContentItem.Episode>()
                     ?.mapEpisodeTOTwoLinesGrid()
-                HomeSectionUiModel.TwoLinesGrid(items, section.name)
+                items?.let { HomeSectionUiModel.TwoLinesGrid(it, section.name) }
             }
 
             section.contentType == "audio_book" &&
@@ -91,21 +91,21 @@ fun HomeResponse.toUiModel(): HomeUiModel {
                 val items = section.content
                     ?.filterIsInstance<ContentItem.AudioBook>()
                     ?.mapAudioBookTOBigSquare()
-                HomeSectionUiModel.BigSquare(items, section.name)
+                items?.let { HomeSectionUiModel.BigSquare(it, section.name) }
             }
 
             section.contentType == "audio_article" && section.type == "square" -> {
                 val items = section.content
                     ?.filterIsInstance<ContentItem.AudioArticle>()
                     ?.mapAudioArticleTOSquareItem()
-                HomeSectionUiModel.Square(items, section.name)
+                items?.let { HomeSectionUiModel.Square(it, section.name) }
             }
 
             section.contentType == "podcast" && section.type == "queue" -> {
                 val items = section.content
                     ?.filterIsInstance<ContentItem.Podcast>()
                     ?.mapPodcastToQueueItem()
-                HomeSectionUiModel.Queue(items, section.name)
+                items?.let { HomeSectionUiModel.Queue(it, section.name) }
             }
 
             section.contentType == "episode" &&
@@ -113,17 +113,22 @@ fun HomeResponse.toUiModel(): HomeUiModel {
                 val items = section.content
                     ?.filterIsInstance<ContentItem.Episode>()
                     ?.mapEpisodeTOBigSquare()
-                HomeSectionUiModel.BigSquare(items, section.name)
+                items?.let { HomeSectionUiModel.BigSquare(it, section.name) }
             }
 
             section.contentType == "audio_book" && section.type == "2_lines_grid" -> {
                 val items = section.content
                     ?.filterIsInstance<ContentItem.AudioBook>()
                     ?.mapAudioBookTOTwoLinesGrid()
-                HomeSectionUiModel.TwoLinesGrid(items, section.name)
+                items?.let { HomeSectionUiModel.TwoLinesGrid(it, section.name) }
             }
 
-            else -> null
+            else -> {
+                val items = section.content
+                    ?.filterIsInstance<ContentItem.Podcast>()
+                    ?.mapPodcastTOSquareItem()
+                items?.let { HomeSectionUiModel.Square(it, section.name) }
+            }
         }
     }.orEmpty()
 

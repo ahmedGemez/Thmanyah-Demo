@@ -20,11 +20,30 @@ class SectionDeserializer : JsonDeserializer<SectionDto> {
 
         val content: List<ContentItemDto>? = contentArray?.mapNotNull { item ->
             when (contentType) {
-                "podcast" -> context.deserialize<ContentItemDto.PodcastDto>(item, ContentItemDto.PodcastDto::class.java)
-                "episode" -> context.deserialize<ContentItemDto.EpisodeDto>(item, ContentItemDto.EpisodeDto::class.java)
-                "audio_book" -> context.deserialize<ContentItemDto.AudioBookDto>(item, ContentItemDto.AudioBookDto::class.java)
-                "audio_article" -> context.deserialize<ContentItemDto.AudioArticleDto>(item, ContentItemDto.AudioArticleDto::class.java)
-                else -> null
+                "podcast" -> context.deserialize<ContentItemDto.PodcastDto>(
+                    item,
+                    ContentItemDto.PodcastDto::class.java
+                )
+
+                "episode" -> context.deserialize<ContentItemDto.EpisodeDto>(
+                    item,
+                    ContentItemDto.EpisodeDto::class.java
+                )
+
+                "audio_book" -> context.deserialize<ContentItemDto.AudioBookDto>(
+                    item,
+                    ContentItemDto.AudioBookDto::class.java
+                )
+
+                "audio_article" -> context.deserialize<ContentItemDto.AudioArticleDto>(
+                    item,
+                    ContentItemDto.AudioArticleDto::class.java
+                )
+                // make else return podcast because the contentType unknown in search API
+                else -> context.deserialize<ContentItemDto.PodcastDto>(
+                    item,
+                    ContentItemDto.PodcastDto::class.java
+                )
             }
         }
 
@@ -32,7 +51,6 @@ class SectionDeserializer : JsonDeserializer<SectionDto> {
             name = jsonObject["name"]?.asString,
             type = jsonObject["type"]?.asString,
             contentType = contentType,
-            order = jsonObject["order"]?.asInt,
             content = content
         )
     }
