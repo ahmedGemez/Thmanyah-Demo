@@ -4,5 +4,24 @@
     <string name="error_1">Sorry, system error occurred. Please try again later</string>
     <string name="no_internet_connection">No Internet connection</string>
 
+    <string name="duration_hour_minute">%1$dh %2$dm</string>
+    <string name="duration_hour">%1$dh</string>
+    <string name="duration_minute">%1$dm</string>
+    <string name="duration_second">%1$dS</string>
+
+    <string name="relative_time_now">now</string>
+    <string name="relative_time_minute_ago">a minute ago</string>
+    <string name="relative_time_minutes_ago">%1$d minutes ago</string>
+    <string name="relative_time_hour_ago">an hour ago</string>
+    <string name="relative_time_hours_ago">%1$d hours ago</string>
+    <string name="relative_time_day_ago">a day ago</string>
+    <string name="relative_time_days_ago">%1$d days ago</string>
+    <string name="relative_time_month_ago">a month ago</string>
+    <string name="relative_time_months_ago">%1$d months ago</string>
+    <string name="relative_time_year_ago">a year ago</string>
+    <string name="relative_time_years_ago">%1$d years ago</string>
+
+    <string name="eposids">eposids</string>
+
 
 </resources>

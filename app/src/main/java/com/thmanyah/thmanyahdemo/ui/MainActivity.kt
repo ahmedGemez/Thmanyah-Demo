@@ -18,10 +18,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.thmanyah.domain.models.ContentItem
 import com.thmanyah.domain.models.HomeResponse
+import com.thmanyah.thmanyahdemo.ui.homeui.HorizontalTwoLinesGridList
+import com.thmanyah.thmanyahdemo.ui.homeui.QueueHorizontalList
+import com.thmanyah.thmanyahdemo.ui.homeui.ShowHorizontalBigSquareList
 import com.thmanyah.thmanyahdemo.ui.models.UiState
 import com.thmanyah.thmanyahdemo.ui.theme.ThmanyahDemoTheme
-import com.thmanyah.thmanyahdemo.ui.utils.toUiState
+import com.thmanyah.thmanyahdemo.ui.utils.mapAudioBookTOBigSquare
+import com.thmanyah.thmanyahdemo.ui.utils.mapAudioBookTOTwoLinesGrid
+import com.thmanyah.thmanyahdemo.ui.utils.mapPodcastToQueueItem
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -60,32 +66,51 @@ fun HomeScreen(
                     modifier = Modifier.align(Alignment.Center)
                 )
             }
+
             is UiState.Loading -> {
                 CircularProgressIndicator(
                     modifier = Modifier.align(Alignment.Center)
                 )
             }
+
             is UiState.Success -> {
                 val data = (homeData as UiState.Success<HomeResponse>).data
                 // Display your content here
-                Text(
-                    text = "Found ${data.sections?.size ?: 0} sections",
-                    modifier = Modifier.align(Alignment.Center)
-                )
+                /*HorizontalSquareList(
+                    (data.sections?.get(0)?.content as? List<ContentItem.Podcast>).orEmpty()
+                        .mapPodcastTOSquareItem()
+                )*/
+
+                //  HorizontalTwoLinesGridList((data.sections?.get(1)?.content as? List<ContentItem.Episode>).orEmpty().mapEpisodeTOTwoLinesGrid())
+
+                // ShowHorizontalBigSquareList((data.sections?.get(2)?.content as? List<ContentItem.AudioBook>).orEmpty().mapAudioBookTOBigSquare())
+
+                /*QueueHorizontalList(
+                    (data.sections?.get(4)?.content as? List<ContentItem.Podcast>).orEmpty()
+                        .mapPodcastToQueueItem()
+                )*/
+
+              //  HorizontalTwoLinesGridList((data.sections?.get(6)?.content as? List<ContentItem.AudioBook>).orEmpty().mapAudioBookTOTwoLinesGrid())
+
+
             }
+
             is UiState.Error -> {
                 val error = (homeData as UiState.Error<HomeResponse>).error
                 Text(
-                    text = error.messageRes?.let { stringResource(id = it) } ?: error.message ?: "An error occurred",
+                    text = error.messageRes?.let { stringResource(id = it) } ?: error.message
+                    ?: "An error occurred",
                     modifier = Modifier.align(Alignment.Center)
                 )
             }
+
             is UiState.Empty -> {
                 Text(
                     text = "No data available",
                     modifier = Modifier.align(Alignment.Center)
                 )
             }
+
             is UiState.LoadMore -> {
                 // Handle load more state if needed
                 CircularProgressIndicator(
@@ -109,3 +134,4 @@ fun HomeScreenPreview() {
         }
     }
 }
+
