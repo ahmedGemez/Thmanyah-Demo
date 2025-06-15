@@ -171,8 +171,7 @@ fun getRelativeTimeData(dateString: String): List<Long>? {
 }
 
 @Composable
-fun getRelativeTimeFromNow(dateString: String): String {
-    val diff = getRelativeTimeData(dateString)
+fun getRelativeTimeFromNow(diff: List<Long>): String {
     return if (diff == null) {
         ""
     } else {

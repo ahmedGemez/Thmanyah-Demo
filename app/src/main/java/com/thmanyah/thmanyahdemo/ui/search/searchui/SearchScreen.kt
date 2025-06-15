@@ -33,6 +33,7 @@ import com.thmanyah.thmanyahdemo.ui.models.home.HomeUiModel
 import com.thmanyah.thmanyahdemo.ui.search.SearchViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
 import java.util.UUID
 
 @Composable
@@ -43,13 +44,18 @@ fun SearchScreen(
     val viewModel: SearchViewModel = hiltViewModel()
     val searchData by viewModel.searchData.collectAsState()
     var query by remember { mutableStateOf("") }
+    var previousQuery by remember { mutableStateOf("") }
+
 
     // Debounce query changes
     LaunchedEffect(query) {
-        snapshotFlow { query }
+        snapshotFlow { query.trim() }
+            .distinctUntilChanged()
             .debounce(200)
             .collectLatest { debouncedQuery ->
-                if (debouncedQuery.isNotBlank()) {
+                // Use previousQuery to prevent redundant API calls with the same search input
+                if (debouncedQuery.isNotBlank() && debouncedQuery != previousQuery) {
+                    previousQuery = debouncedQuery
                     viewModel.getSearchData(debouncedQuery)
                 }
             }

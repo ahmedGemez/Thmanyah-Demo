@@ -13,4 +13,5 @@ class SearchUseCase(
     operator fun invoke(): Flow<SearchResponse> {
         return homeRepo.search()
     }
+
 }
