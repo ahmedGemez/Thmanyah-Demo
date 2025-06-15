@@ -9,4 +9,9 @@ java {
 }
 dependencies{
     implementation(libs.kotlinx.coroutines.core)
+    
+    // Test dependencies
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.mockk)
+    testImplementation(libs.junit)
 }
