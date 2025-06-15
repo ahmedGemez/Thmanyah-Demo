@@ -27,7 +27,7 @@ fun SectionDto.toDomain(): Section {
                 "2_lines_grid" -> SectionType.TWO_LINES_GRID
                 "big_square", "big square" -> SectionType.BIG_SQUARE
                 "queue" -> SectionType.QUEUE
-                else -> null
+                else -> SectionType.SQUARE // because search return unknown data
             }
         },
         contentType = contentType?.let { contentTypeStr ->
@@ -36,7 +36,7 @@ fun SectionDto.toDomain(): Section {
                 "episode" -> ContentType.EPISODE
                 "audio_book" -> ContentType.AUDIO_BOOK
                 "audio_article" -> ContentType.AUDIO_ARTICLE
-                else -> null
+                else ->  ContentType.PODCAST // because search return unknown data
             }
         },
         order = order?.toIntOrNull(),
