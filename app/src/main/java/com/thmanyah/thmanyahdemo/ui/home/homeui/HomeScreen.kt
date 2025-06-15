@@ -26,6 +26,7 @@ import com.thmanyah.thmanyahdemo.ui.home.HomeViewModel
 import com.thmanyah.thmanyahdemo.ui.models.UiState
 import com.thmanyah.thmanyahdemo.ui.models.home.HomeSectionUiModel
 import com.thmanyah.thmanyahdemo.ui.models.home.HomeUiModel
+import java.util.UUID
 
 @Composable
 fun HomeScreen(

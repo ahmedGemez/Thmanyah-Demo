@@ -12,11 +12,13 @@ import com.thmanyah.thmanyahdemo.ui.models.home.ItemQueueData
 import com.thmanyah.thmanyahdemo.ui.models.home.ItemSquareData
 import com.thmanyah.thmanyahdemo.ui.models.home.ItemTwoLinesGridData
 import com.thmanyah.thmanyahdemo.ui.models.home.PaginationUiModel
+import java.util.UUID
 import kotlin.text.Typography.section
 
 
 fun List<ContentItem.Podcast>.mapPodcastTOSquareItem() = map {
     ItemSquareData(
+        id = UUID.randomUUID().toString(),
         imageUrl = it.avatarUrl ?: "",
         title = it.name ?: "",
         duration = it.duration ?: 0
@@ -25,6 +27,7 @@ fun List<ContentItem.Podcast>.mapPodcastTOSquareItem() = map {
 
 fun List<ContentItem.Episode>.mapEpisodeTOTwoLinesGrid() = map {
     ItemTwoLinesGridData(
+        id = UUID.randomUUID().toString(),
         imageUrl = it.avatarUrl ?: "",
         title = it.name ?: "",
         duration = it.duration ?: 0,
@@ -35,6 +38,7 @@ fun List<ContentItem.Episode>.mapEpisodeTOTwoLinesGrid() = map {
 
 fun List<ContentItem.AudioBook>.mapAudioBookTOBigSquare() = map {
     ItemBigSquareData(
+        id = UUID.randomUUID().toString(),
         imageUrl = it.avatarUrl ?: "",
         title = it.name ?: "",
     )
@@ -42,6 +46,7 @@ fun List<ContentItem.AudioBook>.mapAudioBookTOBigSquare() = map {
 
 fun List<ContentItem.AudioArticle>.mapAudioArticleTOSquareItem() = map {
     ItemSquareData(
+        id = UUID.randomUUID().toString(),
         imageUrl = it.avatarUrl ?: "",
         title = it.name ?: "",
         duration = it.duration ?: 0
@@ -50,6 +55,7 @@ fun List<ContentItem.AudioArticle>.mapAudioArticleTOSquareItem() = map {
 
 fun List<ContentItem.Podcast>.mapPodcastToQueueItem() = map {
     ItemQueueData(
+        id = UUID.randomUUID().toString(),
         title = it.name ?: "",
         duration = it.duration ?: 0,
         image = it.avatarUrl ?: ""
@@ -58,6 +64,7 @@ fun List<ContentItem.Podcast>.mapPodcastToQueueItem() = map {
 
 fun List<ContentItem.Episode>.mapEpisodeTOBigSquare() = map {
     ItemBigSquareData(
+        id = UUID.randomUUID().toString(),
         imageUrl = it.avatarUrl ?: "",
         title = it.name ?: "",
     )
@@ -66,6 +73,7 @@ fun List<ContentItem.Episode>.mapEpisodeTOBigSquare() = map {
 
 fun List<ContentItem.AudioBook>.mapAudioBookTOTwoLinesGrid() = map {
     ItemTwoLinesGridData(
+        id = UUID.randomUUID().toString(),
         imageUrl = it.avatarUrl ?: "",
         title = it.name ?: "",
         duration = it.duration ?: 0,
@@ -135,6 +143,7 @@ fun HomeResponse.toUiModel(): HomeUiModel {
         .orEmpty()
 
     return HomeUiModel(
+        id = UUID.randomUUID().toString(),
         sections = sectionUiModels,
         pagination = pagination?.toPaginationUiModel()
     )

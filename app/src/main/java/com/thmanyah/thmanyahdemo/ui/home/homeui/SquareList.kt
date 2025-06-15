@@ -45,7 +45,7 @@ fun HorizontalSquareList(items: List<ItemSquareData>, header: String? = "") {
             contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            items(items,key = { UUID.randomUUID() }) { item ->
+            items(items,key = { it.id }) { item ->
                 SquareItem(item)
             }
         }

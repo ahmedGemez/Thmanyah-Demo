@@ -1,7 +1,10 @@
 package com.thmanyah.thmanyahdemo.ui.models.home
 
+import java.util.UUID
+
 
 sealed class HomeSectionUiModel {
+    val id = UUID.randomUUID()
     data class Square(val items: List<ItemSquareData> = emptyList(), val name: String? = null) :
         HomeSectionUiModel()
 

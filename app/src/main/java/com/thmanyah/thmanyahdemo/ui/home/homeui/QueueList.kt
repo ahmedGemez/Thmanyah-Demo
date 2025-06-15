@@ -34,7 +34,7 @@ fun QueueHorizontalList(items: List<ItemQueueData>, header: String? = "") {
             contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            items(items, key = { UUID.randomUUID() }) { item ->
+            items(items, key = { it.id}) { item ->
                 Box(
                     modifier = Modifier
                         .height(140.dp)

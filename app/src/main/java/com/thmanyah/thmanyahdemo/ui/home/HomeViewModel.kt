@@ -55,7 +55,7 @@ class HomeViewModel @Inject constructor(
                     _homeData.value = UiState.Loading()
                 }
                 else {
-                    _homeData.value = UiState.LoadMore(HomeUiModel(currentSections))
+                    _homeData.value = UiState.LoadMore(HomeUiModel(sections = currentSections))
                 }
             }
 
@@ -64,7 +64,7 @@ class HomeViewModel @Inject constructor(
             } else {
                 currentSections.addAll(it.toUiModel().sections)
             }
-                _homeData.value = UiState.Success(HomeUiModel(currentSections))
+                _homeData.value = UiState.Success(HomeUiModel(sections = currentSections))
                 currentPage = page
                 isLastPage = currentPage == it.pagination?.totalPages
                 _isLoadingMore.value = false

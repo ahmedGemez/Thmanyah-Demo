@@ -55,7 +55,7 @@ fun HorizontalTwoLinesGridList(items: List<ItemTwoLinesGridData>, header: String
             contentPadding = PaddingValues(horizontal = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            items(groupedEpisodes, key = { UUID.randomUUID() }) { pair ->
+            items(groupedEpisodes, key = { it.first().id }) { pair ->
                 Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
                     pair.forEach { item ->
                         EpisodeCard(item = item)
@@ -121,7 +121,7 @@ fun EpisodeCard(item: ItemTwoLinesGridData) {
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                RoundedDurationButton(item.duration ?: 0)
+                RoundedDurationButton(item.duration)
                 Box(
                     modifier = Modifier.fillMaxWidth(),
                     contentAlignment = Alignment.CenterEnd,
