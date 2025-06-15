@@ -1,18 +1,96 @@
-# Thmanyah-Demo
+# Thmanyah Demo
 
-## How to Build & Run
+A modern Android application showcasing the latest Android development practices and libraries.
 
-1. **Clone the repository:**
-   ```sh
-   git clone https://github.com/ahmedGemez/Thmanyah-Demo
-   cd Thmanyah-Demo
-   ```
+## Features
 
-2. **Open in Android Studio**.
+- Modern Android Architecture Components
+- Jetpack Compose UI
+- MVVM Architecture Pattern
+- Dependency Injection with Hilt
+- Kotlin Coroutines for asynchronous operations
+- Retrofit for network calls
+- Material 3 Design
+- Clean Architecture
+- Unit Testing
 
-3. **Sync Gradle** and let dependencies download.
+## Tech Stack
 
-4. **Run the app** on an emulator or device.
+- **Language**: Kotlin
+- **Architecture**: MVVM + Clean Architecture
+- **UI**: Jetpack Compose
+- **DI**: Hilt
+- **Async**: Coroutines + Flow
+- **Network**: Retrofit + OkHttp
+- **Image Loading**: Coil
+- **Testing**: JUnit, Mockk, and Turbine
+
+## Project Structure
+
+```
+app/
+├── data/           # Data layer
+│   ├── api/       # API interfaces and models
+│   ├── db/        # Database entities and DAOs
+│   └── repository/ # Repository implementations
+├── domain/        # Domain layer
+│   ├── model/     # Domain models
+│   ├── repository/# Repository interfaces
+│   └── usecase/   # Use cases
+└── ui/            # Presentation layer
+    ├── common/    # Common UI components
+    ├── home/      # Home screen
+    ├── search/    # Search screen
+    └── theme/     # App theme
+```
+
+## Testing
+
+The project includes comprehensive testing at different levels:
+
+### Unit Tests
+- Located in `src/test/java`
+- Tests for ViewModels, UseCases
+- Uses JUnit, Mockk, and Turbine
+
+### Running Tests
+```bash
+# Run unit tests only
+./gradlew testDebugUnitTest
+
+
+```
+
+## Getting Started
+
+1. Clone the repository
+2. Open the project in Android Studio
+3. Sync the project with Gradle files
+4. Run the app on an emulator or physical device
+
+## Requirements
+
+- Android Studio 
+- JDK 17
+- Android SDK 34
+- Kotlin 1.9.22
+
+## Dependencies
+
+- Jetpack Compose BOM: 2024.02.00
+- Hilt: 2.50
+- Retrofit: 2.9.0
+- Room: 2.6.1
+- Coil: 2.5.0
+- Navigation Compose: 2.7.7
+- Material3: 1.2.0
+- Testing:
+- JUnit: 4.13.2
+- Mockk: 1.13.9
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Key Libraries
 
@@ -22,7 +100,7 @@
 - [Navigation Compose](https://developer.android.com/jetpack/compose/navigation)
 - [Kotlin Coroutines & Flow](https://kotlinlang.org/docs/flow.html)
 
-## Paging
+## Paging Home
 
 - Home sections are loaded with infinite scroll.
 - When the user scrolls near the end, the next page is fetched and appended.
