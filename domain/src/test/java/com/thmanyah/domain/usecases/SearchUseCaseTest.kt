@@ -1,7 +1,9 @@
 package com.thmanyah.domain.usecases
 
+import com.thmanyah.domain.models.ContentType
 import com.thmanyah.domain.models.SearchResponse
 import com.thmanyah.domain.models.Section
+import com.thmanyah.domain.models.SectionType
 import com.thmanyah.domain.repositories.HomeRepo
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -31,8 +33,8 @@ class SearchUseCaseTest {
              listOf(
                  Section(
                     name = "1",
-                     type = "Test type",
-                     contentType = "Test contentType"
+                     type = SectionType.QUEUE,
+                     contentType = ContentType.EPISODE
                 )
             )
         )

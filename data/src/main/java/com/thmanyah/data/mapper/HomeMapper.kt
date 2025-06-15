@@ -1,8 +1,15 @@
 package com.thmanyah.data.mapper
 
-import com.google.gson.annotations.SerializedName
-import com.thmanyah.data.models.*
-import com.thmanyah.domain.models.*
+import com.thmanyah.data.models.ContentItemDto
+import com.thmanyah.data.models.HomeResponseDto
+import com.thmanyah.data.models.PaginationDto
+import com.thmanyah.data.models.SectionDto
+import com.thmanyah.domain.models.ContentItem
+import com.thmanyah.domain.models.ContentType
+import com.thmanyah.domain.models.HomeResponse
+import com.thmanyah.domain.models.Pagination
+import com.thmanyah.domain.models.Section
+import com.thmanyah.domain.models.SectionType
 
 fun HomeResponseDto.toDomain(): HomeResponse {
     return HomeResponse(
@@ -14,13 +21,28 @@ fun HomeResponseDto.toDomain(): HomeResponse {
 fun SectionDto.toDomain(): Section {
     return Section(
         name = name,
-        type = type,
-        contentType = contentType,
+        type = type?.let { typeStr ->
+            when (typeStr.lowercase()) {
+                "square" -> SectionType.SQUARE
+                "2_lines_grid" -> SectionType.TWO_LINES_GRID
+                "big_square", "big square" -> SectionType.BIG_SQUARE
+                "queue" -> SectionType.QUEUE
+                else -> null
+            }
+        },
+        contentType = contentType?.let { contentTypeStr ->
+            when (contentTypeStr.lowercase()) {
+                "podcast" -> ContentType.PODCAST
+                "episode" -> ContentType.EPISODE
+                "audio_book" -> ContentType.AUDIO_BOOK
+                "audio_article" -> ContentType.AUDIO_ARTICLE
+                else -> null
+            }
+        },
         order = order?.toIntOrNull(),
         content = content?.map { it.toDomain() }
     )
 }
-
 
 fun ContentItemDto.toDomain(): ContentItem {
     return when (this) {

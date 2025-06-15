@@ -2,9 +2,11 @@ package com.thmanyah.thmanyahdemo.ui.utils
 
 import com.thmanyah.domain.ext.getRelativeTimeData
 import com.thmanyah.domain.models.ContentItem
+import com.thmanyah.domain.models.ContentType
 import com.thmanyah.domain.models.HomeResponse
 import com.thmanyah.domain.models.Pagination
 import com.thmanyah.domain.models.Section
+import com.thmanyah.domain.models.SectionType
 import com.thmanyah.thmanyahdemo.ui.models.home.HomeSectionUiModel
 import com.thmanyah.thmanyahdemo.ui.models.home.HomeUiModel
 import com.thmanyah.thmanyahdemo.ui.models.home.ItemBigSquareData
@@ -86,53 +88,49 @@ fun Pagination.toPaginationUiModel() = PaginationUiModel(nextPage, totalPages)
 
 fun Section.toUiModelOrNull(): HomeSectionUiModel? {
     return when {
-        contentType == "podcast" && type == "square" -> {
+        contentType == ContentType.PODCAST && type == SectionType.SQUARE -> {
             content?.filterIsInstance<ContentItem.Podcast>()
                 ?.mapPodcastTOSquareItem()
                 ?.let { HomeSectionUiModel.Square(it, name) }
         }
 
-        contentType == "episode" && type == "2_lines_grid" -> {
+        contentType == ContentType.EPISODE && type == SectionType.TWO_LINES_GRID -> {
             content?.filterIsInstance<ContentItem.Episode>()
                 ?.mapEpisodeTOTwoLinesGrid()
                 ?.let { HomeSectionUiModel.TwoLinesGrid(it, name) }
         }
 
-        contentType == "audio_book" && (type == "big_square" || type == "big square") -> {
+        contentType == ContentType.AUDIO_BOOK && type == SectionType.BIG_SQUARE -> {
             content?.filterIsInstance<ContentItem.AudioBook>()
                 ?.mapAudioBookTOBigSquare()
                 ?.let { HomeSectionUiModel.BigSquare(it, name) }
         }
 
-        contentType == "audio_article" && type == "square" -> {
+        contentType == ContentType.AUDIO_ARTICLE && type == SectionType.SQUARE -> {
             content?.filterIsInstance<ContentItem.AudioArticle>()
                 ?.mapAudioArticleTOSquareItem()
                 ?.let { HomeSectionUiModel.Square(it, name) }
         }
 
-        contentType == "podcast" && type == "queue" -> {
+        contentType == ContentType.PODCAST && type == SectionType.QUEUE -> {
             content?.filterIsInstance<ContentItem.Podcast>()
                 ?.mapPodcastToQueueItem()
                 ?.let { HomeSectionUiModel.Queue(it, name) }
         }
 
-        contentType == "episode" && (type == "big_square" || type == "big square") -> {
+        contentType == ContentType.EPISODE && type == SectionType.BIG_SQUARE -> {
             content?.filterIsInstance<ContentItem.Episode>()
                 ?.mapEpisodeTOBigSquare()
                 ?.let { HomeSectionUiModel.BigSquare(it, name) }
         }
 
-        contentType == "audio_book" && type == "2_lines_grid" -> {
+        contentType == ContentType.AUDIO_BOOK && type == SectionType.TWO_LINES_GRID -> {
             content?.filterIsInstance<ContentItem.AudioBook>()
                 ?.mapAudioBookTOTwoLinesGrid()
                 ?.let { HomeSectionUiModel.TwoLinesGrid(it, name) }
         }
 
-        else -> {
-            content?.filterIsInstance<ContentItem.Podcast>()
-                ?.mapPodcastTOSquareItem()
-                ?.let { HomeSectionUiModel.Square(it, name) }
-        }
+        else -> null
     }
 }
 

@@ -5,7 +5,6 @@ import com.google.gson.GsonBuilder
 import com.thmanyah.data.BuildConfig
 import com.thmanyah.data.models.SectionDto
 import com.thmanyah.data.utils.SectionDeserializer
-import com.thmanyah.domain.models.Section
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
