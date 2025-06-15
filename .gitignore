@@ -1,0 +1,10 @@
+# macOS system files
+.DS_Store
+
+# Android Studio
+.idea/
+*.iml
+
+# Build folders
+/build/
+.gradle/
