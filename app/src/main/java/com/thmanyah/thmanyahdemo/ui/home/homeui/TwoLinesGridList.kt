@@ -151,25 +151,6 @@ fun EpisodeCard(item: ItemTwoLinesGridData) {
     }
 }
 
-
-fun getRelativeTimeData(dateString: String): List<Long>? {
-    return try {
-        val formatter = DateTimeFormatter.ISO_DATE_TIME.withZone(ZoneOffset.UTC)
-        val dateTime = Instant.from(formatter.parse(dateString))
-        val now = Instant.now()
-        val minutes = ChronoUnit.MINUTES.between(dateTime, now)
-        val hours = ChronoUnit.HOURS.between(dateTime, now)
-        val days = ChronoUnit.DAYS.between(dateTime, now)
-        val months =
-            ChronoUnit.MONTHS.between(dateTime.atZone(ZoneOffset.UTC), now.atZone(ZoneOffset.UTC))
-        val years =
-            ChronoUnit.YEARS.between(dateTime.atZone(ZoneOffset.UTC), now.atZone(ZoneOffset.UTC))
-        listOf(minutes, hours, days, months, years)
-    } catch (e: Exception) {
-        null
-    }
-}
-
 @Composable
 fun getRelativeTimeFromNow(diff: List<Long>): String {
     return if (diff == null) {
