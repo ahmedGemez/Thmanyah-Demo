@@ -57,7 +57,6 @@ The project includes comprehensive testing at different levels:
 # Run unit tests only
 ./gradlew testDebugUnitTest
 
-
 ```
 
 ## Getting Started
