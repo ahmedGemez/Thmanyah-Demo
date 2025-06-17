@@ -23,7 +23,7 @@ A modern Android application showcasing the latest Android development practices
 - **Async**: Coroutines + Flow
 - **Network**: Retrofit + OkHttp
 - **Image Loading**: Coil
-- **Testing**: JUnit, Mockk, and Turbine
+- **Testing**: JUnit, Mockk
 
 ## Project Structure
 
