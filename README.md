@@ -72,7 +72,7 @@ The project includes comprehensive testing at different levels:
 - Android Studio 
 - JDK 17
 - Android SDK 34
-- Kotlin 1.9.22
+- Kotlin 1.8.0
 
 ## Dependencies
 
