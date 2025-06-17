@@ -1,10 +1,8 @@
-package com.thmanyah.thmanyahdemo.ui.home.homeui
+package com.thmanyah.thmanyahdemo.ui.common
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -16,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.thmanyah.thmanyahdemo.ui.NavigationKeys.Route.SEARCH
+import com.thmanyah.thmanyahdemo.ui.utils.NavigationKeys.Route.SEARCH
 
 
 @Composable

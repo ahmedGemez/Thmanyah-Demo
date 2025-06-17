@@ -19,11 +19,11 @@ import androidx.compose.runtime.*
 import androidx.navigation.compose.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.thmanyah.thmanyahdemo.ui.NavigationKeys.Route.SEARCH
+import com.thmanyah.thmanyahdemo.ui.utils.NavigationKeys.Route.SEARCH
 import com.thmanyah.thmanyahdemo.ui.home.HomeViewModel
-import com.thmanyah.thmanyahdemo.ui.home.homeui.HomeScreen
+import com.thmanyah.thmanyahdemo.ui.home.HomeScreen
 import com.thmanyah.thmanyahdemo.ui.models.MainTab
-import com.thmanyah.thmanyahdemo.ui.search.searchui.SearchScreen
+import com.thmanyah.thmanyahdemo.ui.search.SearchScreen
 import com.thmanyah.thmanyahdemo.ui.theme.ThmanyahDemoTheme
 import dagger.hilt.android.AndroidEntryPoint
 

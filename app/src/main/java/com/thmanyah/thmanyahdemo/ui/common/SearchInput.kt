@@ -1,4 +1,4 @@
-package com.thmanyah.thmanyahdemo.ui.search.searchui
+package com.thmanyah.thmanyahdemo.ui.common
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.fillMaxWidth

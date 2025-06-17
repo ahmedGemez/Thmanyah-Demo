@@ -1,4 +1,4 @@
-package com.thmanyah.thmanyahdemo.ui.home.homeui
+package com.thmanyah.thmanyahdemo.ui.home
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,11 +22,14 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.thmanyah.domain.models.HomeResponse
-import com.thmanyah.thmanyahdemo.ui.home.HomeViewModel
+import com.thmanyah.thmanyahdemo.ui.common.HorizontalSquareList
+import com.thmanyah.thmanyahdemo.ui.common.HorizontalTwoLinesGridList
+import com.thmanyah.thmanyahdemo.ui.common.QueueHorizontalList
+import com.thmanyah.thmanyahdemo.ui.common.ShowHorizontalBigSquareList
+import com.thmanyah.thmanyahdemo.ui.common.WelcomeBar
 import com.thmanyah.thmanyahdemo.ui.models.UiState
 import com.thmanyah.thmanyahdemo.ui.models.home.HomeSectionUiModel
 import com.thmanyah.thmanyahdemo.ui.models.home.HomeUiModel
-import java.util.UUID
 
 @Composable
 fun HomeScreen(

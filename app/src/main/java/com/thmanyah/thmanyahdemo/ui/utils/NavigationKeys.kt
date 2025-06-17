@@ -1,4 +1,4 @@
-package com.thmanyah.thmanyahdemo.ui
+package com.thmanyah.thmanyahdemo.ui.utils
 
 
 object NavigationKeys {

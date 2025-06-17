@@ -1,4 +1,4 @@
-package com.thmanyah.thmanyahdemo.ui.home.homeui
+package com.thmanyah.thmanyahdemo.ui.common
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -37,11 +37,6 @@ import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.thmanyah.thmanyahdemo.R
 import com.thmanyah.thmanyahdemo.ui.models.home.ItemTwoLinesGridData
-import java.time.Instant
-import java.time.ZoneOffset
-import java.time.format.DateTimeFormatter
-import java.time.temporal.ChronoUnit
-import java.util.UUID
 
 @Composable
 fun HorizontalTwoLinesGridList(items: List<ItemTwoLinesGridData>, header: String? = "") {

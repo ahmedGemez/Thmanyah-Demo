@@ -31,8 +31,7 @@ A modern Android application showcasing the latest Android development practices
 app/
 ├── data/           # Data layer
 │   ├── api/       # API interfaces and models
-│   ├── db/        # Database entities and DAOs
-│   └── repository/ # Repository implementations
+│   └── repositoryImpl/ # Repository implementations
 ├── domain/        # Domain layer
 │   ├── model/     # Domain models
 │   ├── repository/# Repository interfaces

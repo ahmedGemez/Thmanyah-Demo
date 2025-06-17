@@ -1,4 +1,4 @@
-package com.thmanyah.thmanyahdemo.ui.home.homeui
+package com.thmanyah.thmanyahdemo.ui.common
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -32,7 +32,6 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.thmanyah.thmanyahdemo.R
 import com.thmanyah.thmanyahdemo.ui.models.home.ItemSquareData
-import java.util.UUID
 
 
 @Composable

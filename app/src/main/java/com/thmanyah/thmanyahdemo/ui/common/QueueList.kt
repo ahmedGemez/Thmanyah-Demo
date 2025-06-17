@@ -1,4 +1,4 @@
-package com.thmanyah.thmanyahdemo.ui.home.homeui
+package com.thmanyah.thmanyahdemo.ui.common
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -22,7 +22,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.thmanyah.thmanyahdemo.ui.models.home.ItemQueueData
-import java.util.UUID
 
 @Composable
 fun QueueHorizontalList(items: List<ItemQueueData>, header: String? = "") {
