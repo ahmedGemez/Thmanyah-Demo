@@ -11,7 +11,6 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -22,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.thmanyah.domain.models.HomeResponse
 import com.thmanyah.thmanyahdemo.ui.common.HorizontalSquareList
 import com.thmanyah.thmanyahdemo.ui.common.HorizontalTwoLinesGridList
@@ -41,7 +41,7 @@ fun SearchScreen(
 ) {
 
     val viewModel: SearchViewModel = hiltViewModel()
-    val searchData by viewModel.searchData.collectAsState()
+    val searchData by viewModel.searchData.collectAsStateWithLifecycle()
     var query by remember { mutableStateOf("") }
     var previousQuery by remember { mutableStateOf("") }
 
