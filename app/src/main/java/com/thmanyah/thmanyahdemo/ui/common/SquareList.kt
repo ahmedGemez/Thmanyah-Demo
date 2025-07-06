@@ -1,5 +1,6 @@
 package com.thmanyah.thmanyahdemo.ui.common
 
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -26,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -44,7 +46,7 @@ fun HorizontalSquareList(items: List<ItemSquareData>, header: String? = "") {
             contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            items(items,key = { it.id }) { item ->
+            items(items, key = { it.id }) { item ->
                 SquareItem(item)
             }
         }
@@ -52,10 +54,9 @@ fun HorizontalSquareList(items: List<ItemSquareData>, header: String? = "") {
 }
 
 @Composable
-fun SquareItem(item: ItemSquareData){
+fun SquareItem(item: ItemSquareData) {
     Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.width(120.dp)
+        horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.width(120.dp)
     ) {
         Image(
             painter = rememberAsyncImagePainter(item.imageUrl),
@@ -91,7 +92,7 @@ fun SquareItem(item: ItemSquareData){
 
 
 @Composable
-fun RoundedDurationButton(duration: Int){
+fun RoundedDurationButton(duration: Int) {
     Button(
         onClick = { /* TODO: Handle click */ },
         shape = RoundedCornerShape(50), // Fully rounded
@@ -109,27 +110,29 @@ fun RoundedDurationButton(duration: Int){
                 modifier = Modifier.size(18.dp)
             )
             Spacer(modifier = Modifier.width(4.dp))
-            Text(
-                text = formatDuration(duration),
-                style = MaterialTheme.typography.bodySmall,
-                color = Color.White
-            )
+            DurationText(duration, Color.White)
         }
     }
 }
 
 
-@Composable
-fun formatDuration(durationSeconds: Int?): String {
+fun formatDurationText(context: Context, durationSeconds: Int?): String {
     if (durationSeconds == null) return ""
-    val totalSeconds = durationSeconds
-    val hours = totalSeconds / 3600
-    val minutes = (totalSeconds % 3600) / 60
-    val seconds = (totalSeconds )
+    val hours = durationSeconds / 3600
+    val minutes = (durationSeconds % 3600) / 60
+    val seconds = durationSeconds
+
     return when {
-        hours > 0 && minutes > 0 -> stringResource(R.string.duration_hour_minute, hours, minutes)
-        hours > 0 -> stringResource(R.string.duration_hour, hours)
-        minutes > 0 -> stringResource(R.string.duration_minute, minutes)
-        else -> stringResource(R.string.duration_second, seconds)
+        hours > 0 && minutes > 0 -> context.getString(R.string.duration_hour_minute, hours, minutes)
+        hours > 0 -> context.getString(R.string.duration_hour, hours)
+        minutes > 0 -> context.getString(R.string.duration_minute, minutes)
+        else -> context.getString(R.string.duration_second, seconds)
     }
+}
+
+@Composable
+fun DurationText(durationSeconds: Int?, color: Color) {
+    val context = LocalContext.current
+    val text = formatDurationText(context, durationSeconds)
+    Text(text, style = MaterialTheme.typography.bodySmall, color = color)
 }

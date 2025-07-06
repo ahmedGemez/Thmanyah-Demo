@@ -76,18 +76,10 @@ fun QueueHorizontalList(items: List<ItemQueueData>, header: String? = "") {
                             )
                             Spacer(modifier = Modifier.height(8.dp))
                             Row(verticalAlignment = Alignment.CenterVertically) {
-                                Text(
-                                    text = formatDuration(item.duration),
-                                    color = Color.Red,
-                                    style = MaterialTheme.typography.bodyMedium
-                                )
+                                DurationText(item.duration, Color.Red)
                                 Spacer(modifier = Modifier.width(8.dp))
                                 if (item.timeAgo != null)
-                                    Text(
-                                        text = getRelativeTimeFromNow(item.timeAgo),
-                                        color = Color.White,
-                                        style = MaterialTheme.typography.bodyMedium
-                                    )
+                                    RelativeTimeText(item.timeAgo, Color.White)
                             }
                         }
                         // Play button

@@ -1,5 +1,6 @@
 package com.thmanyah.thmanyahdemo.ui.common
 
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -28,10 +29,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
@@ -85,8 +88,8 @@ fun EpisodeCard(item: ItemTwoLinesGridData) {
 
         // Texts
         Column(modifier = Modifier.weight(1f)) {
-            Text(
-                text = getRelativeTimeFromNow(item.releaseDate),
+            RelativeTimeText(
+                diff = item.releaseDate ,
                 color = Color.Gray,
                 fontSize = 10.sp,
                 fontWeight = FontWeight.Bold,
@@ -94,6 +97,7 @@ fun EpisodeCard(item: ItemTwoLinesGridData) {
                 textAlign = TextAlign.Start,
                 modifier = Modifier.fillMaxWidth()
             )
+
 
             Spacer(modifier = Modifier.height(4.dp))
 
@@ -146,25 +150,49 @@ fun EpisodeCard(item: ItemTwoLinesGridData) {
     }
 }
 
-@Composable
-fun getRelativeTimeFromNow(diff: List<Long>): String {
-    return if (diff == null) {
-        ""
-    } else {
-        val (minutes, hours, days, months, years) = diff
-        when {
-            minutes < 1 -> stringResource(R.string.relative_time_now)
-            minutes == 1L -> stringResource(R.string.relative_time_minute_ago)
-            minutes < 60 -> stringResource(R.string.relative_time_minutes_ago, minutes)
-            hours == 1L -> stringResource(R.string.relative_time_hour_ago)
-            hours < 24 -> stringResource(R.string.relative_time_hours_ago, hours)
-            days == 1L -> stringResource(R.string.relative_time_day_ago)
-            days < 30 -> stringResource(R.string.relative_time_days_ago, days)
-            months == 1L -> stringResource(R.string.relative_time_month_ago)
-            months < 12 -> stringResource(R.string.relative_time_months_ago, months)
-            years == 1L -> stringResource(R.string.relative_time_year_ago)
-            else -> stringResource(R.string.relative_time_years_ago, years)
-        }
+fun getRelativeTimeFromNow(context: Context, diff: List<Long>?): String {
+    if (diff == null) return ""
+
+    val (minutes, hours, days, months, years) = diff
+
+    return when {
+        minutes < 1 -> context.getString(R.string.relative_time_now)
+        minutes == 1L -> context.getString(R.string.relative_time_minute_ago)
+        minutes < 60 -> context.getString(R.string.relative_time_minutes_ago, minutes)
+        hours == 1L -> context.getString(R.string.relative_time_hour_ago)
+        hours < 24 -> context.getString(R.string.relative_time_hours_ago, hours)
+        days == 1L -> context.getString(R.string.relative_time_day_ago)
+        days < 30 -> context.getString(R.string.relative_time_days_ago, days)
+        months == 1L -> context.getString(R.string.relative_time_month_ago)
+        months < 12 -> context.getString(R.string.relative_time_months_ago, months)
+        years == 1L -> context.getString(R.string.relative_time_year_ago)
+        else -> context.getString(R.string.relative_time_years_ago, years)
     }
 }
+
+@Composable
+fun RelativeTimeText(
+    diff: List<Long>?,
+    color: Color,
+    modifier: Modifier = Modifier,
+    fontSize: TextUnit = TextUnit.Unspecified,
+    fontWeight: FontWeight? = null,
+    maxLines: Int = Int.MAX_VALUE,
+    textAlign: TextAlign? = null,
+) {
+    val context = LocalContext.current
+    val relativeTime = getRelativeTimeFromNow(context, diff)
+    Text(
+        text = relativeTime, color = color,
+        fontSize = fontSize,
+        fontWeight = fontWeight,
+        maxLines = maxLines,
+        textAlign = textAlign,
+        modifier = modifier
+    )
+}
+
+
+
+
 
