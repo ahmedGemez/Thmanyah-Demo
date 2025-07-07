@@ -2,6 +2,7 @@ package com.thmanyah.thmanyahdemo.ui.home
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -9,11 +10,16 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -64,47 +70,7 @@ fun HomeScreen(
                 }
                 Column {
                     WelcomeBar(navController = navController )
-                    LazyColumn {
-                        itemsIndexed(data.sections) { index, section ->
-                            if (index == data.sections.lastIndex - 2 && !isLoadingMore) {
-                                viewModel.loadNextPage()
-                            }
-                            when (section) {
-                                is HomeSectionUiModel.Square -> {
-                                    HorizontalSquareList(section.items, section.name)
-                                }
-
-                                is HomeSectionUiModel.TwoLinesGrid -> {
-                                    HorizontalTwoLinesGridList(section.items, section.name)
-                                }
-
-                                is HomeSectionUiModel.BigSquare -> {
-                                    ShowHorizontalBigSquareList(section.items, section.name)
-                                }
-
-                                is HomeSectionUiModel.Queue -> {
-                                    QueueHorizontalList(section.items, section.name)
-                                }
-                                // Add more cases as needed
-                            }
-                            Spacer(modifier = Modifier.height(16.dp))
-
-                        }
-                        if (isLoadingMore) {
-                            item {
-                                Box(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(16.dp),
-                                    contentAlignment = Alignment.Center
-                                ) {
-                                    CircularProgressIndicator(
-                                        modifier = Modifier.size(20.dp)
-                                    )
-                                }
-                            }
-                        }
-                    }
+                    HomeScreenList(data,isLoadingMore,viewModel)
                 }
             }
 
@@ -127,3 +93,73 @@ fun HomeScreen(
         }
     }
 }
+
+
+@Composable
+fun HomeScreenList(
+    data: HomeUiModel,
+    isLoadingMore: Boolean,
+    viewModel: HomeViewModel
+) {
+    val listState = rememberLazyListState()
+
+    // derivedStateOf to avoid recomputation unless scroll state actually changes
+    val shouldLoadMore = remember {
+        derivedStateOf {
+            val lastVisibleItemIndex = listState.layoutInfo.visibleItemsInfo.lastOrNull()?.index
+            val totalItemsCount = listState.layoutInfo.totalItemsCount
+
+            // Load more when the user scrolls near the bottom (2 items before the end)
+            lastVisibleItemIndex != null &&
+                    lastVisibleItemIndex >= totalItemsCount - 3 &&
+                    !isLoadingMore
+        }
+    }
+
+    LaunchedEffect(shouldLoadMore.value) {
+        if (shouldLoadMore.value) {
+            viewModel.loadNextPage()
+        }
+    }
+
+    LazyColumn(
+        state = listState,
+        contentPadding = PaddingValues(vertical = 8.dp)
+    ) {
+        items(data.sections) { section ->
+            when (section) {
+                is HomeSectionUiModel.Square -> {
+                    HorizontalSquareList(section.items, section.name)
+                }
+
+                is HomeSectionUiModel.TwoLinesGrid -> {
+                    HorizontalTwoLinesGridList(section.items, section.name)
+                }
+
+                is HomeSectionUiModel.BigSquare -> {
+                    ShowHorizontalBigSquareList(section.items, section.name)
+                }
+
+                is HomeSectionUiModel.Queue -> {
+                    QueueHorizontalList(section.items, section.name)
+                }
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+        }
+
+        if (isLoadingMore) {
+            item {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator(modifier = Modifier.size(20.dp))
+                }
+            }
+        }
+    }
+}
+
